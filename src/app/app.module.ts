@@ -7,18 +7,22 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
+import { DevicesComponent } from './devices.component';
+import { IotService } from './iot.service';
 
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
+    DevicesComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     HttpModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
-    ENV_PROVIDERS
+    ENV_PROVIDERS,
+    IotService
   ]
 })
 export class AppModule {

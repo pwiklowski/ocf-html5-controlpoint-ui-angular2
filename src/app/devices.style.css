@@ -1,0 +1,17 @@
+.iot-device-list{
+    margin: 20px;
+    transition: transform 300ms ease-out;
+    z-index: 5;
+
+}
+.iot-title{
+    font-size:35px;
+    margin: 20px;
+    
+}
+.iot-device:hover{
+    background: #EFEFEF;
+}
+.iot-device{
+    padding: 10px;
+}
