@@ -7,18 +7,15 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home.component';
 
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    HomeComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,
-    HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    HttpModule
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS
