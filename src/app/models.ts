@@ -1,13 +1,11 @@
 export class Device{
-    id: string;
+    uuid: string;
     name: string;
-
 }
 
 export class DeviceVariable{
     name: string;
     values: any;
-    
 }
 
 

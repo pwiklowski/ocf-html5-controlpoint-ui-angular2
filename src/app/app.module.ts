@@ -9,18 +9,46 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { DevicesComponent } from './devices.component';
 import { IotService } from './iot.service';
+import { DeviceComponent } from './device.component'
+
+import { VariableColourRgbComponent } from './variable-rgb.component';
+import { VariableLightDimmingComponent } from './variable-dimming.component';
+import { VariableGenericComponent } from './variable-generic.component';
+
+import { Pipe } from '@angular/core';
+
+@Pipe({
+    name: 'mapToIterable'
+})
+export class MapToIterable {
+    transform(map: {}, args: any[] = null): any {
+        if (!map)
+            return null;
+        return Object.keys(map).map((key) => ({ 'key': key, 'value': map[key] }));
+    }
+}
 
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
     AppComponent,
-    DevicesComponent
+    DevicesComponent,
+    DeviceComponent,
+    VariableGenericComponent,
+    VariableLightDimmingComponent,
+    VariableColourRgbComponent,
+    MapToIterable
   ],
-  imports: [ // import Angular's modules
+  imports: [ 
     BrowserModule,
     HttpModule
   ],
-  providers: [ // expose our Services and Providers into Angular's dependency injection
+  entryComponents: [
+      VariableGenericComponent,
+      VariableLightDimmingComponent,
+      VariableColourRgbComponent
+  ],
+  providers: [
     ENV_PROVIDERS,
     IotService
   ]
