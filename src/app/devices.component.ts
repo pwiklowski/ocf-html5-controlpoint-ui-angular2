@@ -27,5 +27,15 @@ export class DevicesComponent {
     if (this.onDeviceSelected !== undefined)
       this.onDeviceSelected(device);
   }
+  hide(){
+    let device = document.getElementById("iot-devices");
+    device.style.transform = "translateY(500px)";
+    device.style.opacity = "0";
+  }
+  show(){
+    let device = document.getElementById("iot-devices");
+    device.style.transform = "translateY(0px)";
+    device.style.opacity = "1";
+  }
 
 }

@@ -23,6 +23,7 @@ export class DeviceComponent extends Component{
   @ViewChild('container', { read: ViewContainerRef })
   container: ViewContainerRef;
   
+  
   constructor(componentFactoryResolver: ComponentFactoryResolver, private iotService: IotService) {
     this.componentFactoryResolver = componentFactoryResolver;
   }
@@ -58,11 +59,14 @@ export class DeviceComponent extends Component{
     }
   }
 
-  hide(window){
-    window.style.transform = this.transformOpen;
+  hide(){
+    let device = document.getElementById("iot-device");
+    device.style.transform = "translateY(500px)";
+    device.style.opacity = "0";
   }
-  show(window){
-    window.style.transform = this.transformClosed;
+  show(){
+    let device = document.getElementById("iot-device");
+    device.style.transform = "translateY(0px)";
+    device.style.opacity = "1";
   }
-    
 }
