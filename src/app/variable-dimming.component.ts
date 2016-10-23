@@ -13,8 +13,7 @@ import {IotService} from './iot.service';
   template: `
     <div class="iot-resource">
         <b>{{name}}</b><br>
-        {{ value }}
-        <input #slider [value]="value" type="range" min="{{min}}" max="{{max}}" (input)="onChange(slider.value)"/>
+        <md-slider #slider [value]="value" type="range" min="{{min}}" max="{{max}}" (input)="onChange(slider.value)"></md-slider>
     </div>`
 })
 export class VariableLightDimmingComponent extends VariableComponent {

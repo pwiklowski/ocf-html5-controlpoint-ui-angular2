@@ -12,15 +12,9 @@ import { IotService } from './iot.service';
     template: `
     <div class="iot-resource">
         <b>{{ name}}</b><br>
-        {{ red }}
-        <input #r [value]="red" type="range" min="0" max="255" 
-            (input)="onChange(r.value, g.value, b.value)"/> 
-        {{ green }}
-        <input #g [value]="green" type="range" min="0" max="255"
-            (input)="onChange(r.value, g.value, b.value)"/> 
-        {{ blue }}
-        <input #b [value]="blue" type="range" min="0" max="255"
-            (input)="onChange(r.value, g.value, b.value)"/>
+        Red:<br><md-slider #r [value]="red" type="range" min="0" max="255" (input)="onChange(r.value, g.value, b.value)"></md-slider><br>
+        Green:<br><md-slider #g [value]="green" type="range" min="0" max="255" (input)="onChange(r.value, g.value, b.value)"></md-slider><br>
+        Blue:<br><md-slider #b [value]="blue" type="range" min="0" max="255" (input)="onChange(r.value, g.value, b.value)"></md-slider><br>
     </div>`
 })
 export class VariableColourRgbComponent extends VariableComponent {

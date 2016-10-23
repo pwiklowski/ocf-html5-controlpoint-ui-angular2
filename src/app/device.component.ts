@@ -9,8 +9,11 @@ import { VariableComponent } from './variable.component';
 
 @Component({
   selector: '[device]',
-  styleUrls: ['./device.style.css'],
-  template: `<div #container> </div>`,
+  template: `
+  <div #container>
+    <md-card-title>{{device.name}}</md-card-title>    
+    <md-card-subtitle>{{device.uuid}}</md-card-subtitle>    
+  </div>`,
 })
 export class DeviceComponent extends Component{   
   device: Device;
@@ -23,6 +26,7 @@ export class DeviceComponent extends Component{
   constructor(componentFactoryResolver: ComponentFactoryResolver, private iotService: IotService) {
     this.device = new Device();
     this.device.uuid = "0685B960-736F-46F7-BEC0-9E6CBD61ADC2";
+    this.device.name = "Device name";
     this.componentFactoryResolver = componentFactoryResolver;
   }
   

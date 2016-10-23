@@ -2,6 +2,7 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '@angular/material';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
 
 import { ENV_PROVIDERS } from './environment';
@@ -41,7 +42,8 @@ export class MapToIterable {
   ],
   imports: [ 
     BrowserModule,
-    HttpModule
+    HttpModule,
+    MaterialModule.forRoot()
   ],
   entryComponents: [
       VariableGenericComponent,

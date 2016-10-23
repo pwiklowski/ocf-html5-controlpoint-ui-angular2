@@ -4,12 +4,48 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-
+  <link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <title><%= htmlWebpackPlugin.options.title %></title>
 
   <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
+  
+  
+  <style>
+    md-card {
+      margin: 20px;
+      background-color: white;
+    }
+    md-toolbar{
+      background-color: #c2185b;
+      color: white;
+    }
+    md-slider{
+      width: 100%;
+    }
+    body{
+      background-color: #f1f1f1;
+    }
+    .app-icon-button {
+      box-shadow: none;
+      user-select: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      filter: none;
+      font-weight: normal;
+      height: auto;
+      line-height: inherit;
+      margin: 0;
+      min-width: 0;
+      padding: 0;
+      text-align: left;
+      text-decoration: none;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="assets/css/indigo-pink.css">
 
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->
