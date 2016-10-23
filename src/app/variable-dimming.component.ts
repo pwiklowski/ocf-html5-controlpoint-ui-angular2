@@ -13,7 +13,7 @@ import {IotService} from './iot.service';
   template: `
     <div class="iot-resource">
         <b>{{name}}</b><br>
-        <md-slider #slider value="{{value}}" type="range" min="{{min}}" max="{{max}}" (slide)="onChange(slider.value)"></md-slider>
+        <md-slider #slider value="{{value}}" type="range" min="{{min}}" max="{{max}}"></md-slider>
     </div>`
 })
 export class VariableLightDimmingComponent extends VariableComponent {
@@ -37,22 +37,19 @@ export class VariableLightDimmingComponent extends VariableComponent {
     this.max = value["range"].split(",")[1];
 
     this.iot.onConnected(() => {
-        this.sub = this.iot.subscribe("EventValueUpdate", { di: this.di, resource: this.name }, (data) => {
-            this.value = data.value["dimmingSetting"];
-            console.log("dimming update " + this.name,this.value);
-            this.slider.writeValue(this.value);
-          });
+      this.sub = this.iot.subscribe("EventValueUpdate", { di: this.di, resource: this.name }, (data) => {
+        this.value = data.value["dimmingSetting"];
+        this.slider.writeValue(this.value);
       });
-  }
-
-  onChange(value) {
-    console.log("onChange", value);
-
-    this.value = value;
-
-    let obj = {
-      "dimmingSetting": parseInt(value)
-    };
-    this.iot.setValue(this.di, this.name, obj);
+    });
+      
+    this.slider.registerOnTouched((value)=>{
+      if (value !== undefined){
+        let obj = {
+          "dimmingSetting": parseInt(value)
+        };
+        this.iot.setValue(this.di, this.name, obj);
+      }
+    });
   }
 }

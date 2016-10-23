@@ -10,9 +10,12 @@ import {IotService} from './iot.service';
 @Component({selector: '[variable]', template: `
     <div class="iot-resource">
         <b>{{ name}}</b><br>
-        Red:<br><md-slider #r value="{{red}}" type="range" min="0" max="255" (slide)="onChange(r.value, g.value, b.value)"></md-slider><br>
-        Green:<br><md-slider #g value="{{green}}" type="range" min="0" max="255" (slide)="onChange(r.value, g.value, b.value)"></md-slider><br>
-        Blue:<br><md-slider #b value="{{blue}}" type="range" min="0" max="255" (slide)="onChange(r.value, g.value, b.value)"></md-slider><br>
+        Red:<br>
+        <md-slider #r value="{{red}}" type="range" min="0" max="255"> </md-slider><br>
+        Green:<br>
+        <md-slider #g value="{{green}}" type="range" min="0" max="255"></md-slider><br>
+        Blue:<br>
+        <md-slider #b value="{{blue}}" type="range" min="0" max="255"></md-slider><br>
     </div>`})
 export class VariableColourRgbComponent extends VariableComponent {
   red : number;
@@ -35,10 +38,20 @@ export class VariableColourRgbComponent extends VariableComponent {
     this.setValues(value);
 
     this.iot.onConnected(() => {
-        this.sub = this.iot.subscribe("EventValueUpdate", { di: this.di, resource: this.name }, (data) => {
-            this.setValues(data.value);
-          });
+      this.sub = this.iot.subscribe("EventValueUpdate", { di: this.di, resource: this.name }, (data) => {
+        this.setValues(data.value);
       });
+    });
+    this.r.registerOnTouched((value)=>{
+      this.onChange(value, this.g.value, this.b.value);
+    });
+    this.g.registerOnTouched((value)=>{
+      this.onChange(this.r.value, value, this.b.value);
+    });
+    this.b.registerOnTouched((value)=>{
+      this.onChange(this.r.value, this.g.value, value);
+    });
+    
   }
 
   setValues(value) {
@@ -62,8 +75,6 @@ export class VariableColourRgbComponent extends VariableComponent {
       "dimmingSetting": this.red + "," + this.green + "," + this.blue
     };
 
-    this
-      .iot
-      .setValue(this.di, this.name, obj);
+    this.iot.setValue(this.di, this.name, obj);
   }
 }
