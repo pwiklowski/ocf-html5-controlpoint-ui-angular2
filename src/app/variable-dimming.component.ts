@@ -1,4 +1,4 @@
-import {Component, ViewContainerRef, ElementRef} from '@angular/core';
+import {Component, ViewContainerRef,ViewChild} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Device, DeviceVariable} from './models.ts';
@@ -13,15 +13,16 @@ import {IotService} from './iot.service';
   template: `
     <div class="iot-resource">
         <b>{{name}}</b><br>
-        <md-slider #slider [value]="value" type="range" min="{{min}}" max="{{max}}" (input)="onChange(slider.value)"></md-slider>
+        <md-slider #slider value="{{value}}" type="range" min="{{min}}" max="{{max}}" (slide)="onChange(slider.value)"></md-slider>
     </div>`
 })
 export class VariableLightDimmingComponent extends VariableComponent {
-  value : number;
+  value : number = 0;
   max : number;
   min : number;
 
   sub;
+  @ViewChild('slider') slider; 
 
   constructor(private iot : IotService) {
     super();
@@ -35,21 +36,18 @@ export class VariableLightDimmingComponent extends VariableComponent {
     this.min = value["range"].split(",")[0];
     this.max = value["range"].split(",")[1];
 
-    this
-      .iot
-      .onConnected(() => {
-        this.sub = this
-          .iot
-          .subscribe("EventValueUpdate", {
-            di: this.di,
-            resource: this.name
-          }, (data) => {
+    this.iot.onConnected(() => {
+        this.sub = this.iot.subscribe("EventValueUpdate", { di: this.di, resource: this.name }, (data) => {
             this.value = data.value["dimmingSetting"];
+            console.log("dimming update " + this.name,this.value);
+            this.slider.writeValue(this.value);
           });
       });
   }
 
   onChange(value) {
+    console.log("onChange", value);
+
     this.value = value;
 
     let obj = {

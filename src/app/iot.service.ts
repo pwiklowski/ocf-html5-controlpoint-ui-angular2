@@ -45,9 +45,7 @@ export class IotService {
 
     this.socket.onopen = (e) => {
       console.log('Connected!');
-      this
-        .onConnectedCallbacks
-        .forEach((callback) => {
+      this.onConnectedCallbacks.forEach((callback) => {
           callback();
         });
       this.onConnectedCallbacks = [];
@@ -71,9 +69,7 @@ export class IotService {
       this.mid++;
     }
 
-    this
-      .socket
-      .send(JSON.stringify(message));
+    this.socket.send(JSON.stringify(message));
   }
 
   private onMessage(e) {
@@ -121,6 +117,7 @@ export class IotService {
 
   subscribe(event, params, callback) : number {
     let s = new Subscription(event, params, callback);
+    console.log("subscribe " + event , params);
 
     this.subscriptionId++;
     this.subscriptions[this.subscriptionId] = s;
@@ -131,9 +128,7 @@ export class IotService {
     if (this.socket.readyState == 1) 
       callback();
     else 
-      this
-        .onConnectedCallbacks
-        .push(callback);
+      this.onConnectedCallbacks.push(callback);
     }
   
 }
