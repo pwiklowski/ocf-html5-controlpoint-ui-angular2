@@ -1,5 +1,5 @@
 <md-card-title>Devices</md-card-title>    
-<div class="iot-device" *ngFor="let device of devices">
+<div class="iot-device" *ngFor="let device of devices" (click)="deviceSelected(device)">
   <div >{{ device.name }}</div> 
   <div>{{ device.id}}</div> 
 </div>

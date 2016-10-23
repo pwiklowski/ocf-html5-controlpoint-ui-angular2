@@ -10,6 +10,8 @@ import { Device } from './models';
 export class DevicesComponent {
   devices: Array<Device> = new Array<Device>();
   
+  onDeviceSelected;
+  
   constructor(private iotService: IotService) {
     iotService.subscribe("EventDeviceListUpdate", {}, (response)=>{
       this.devices = response;
@@ -18,6 +20,12 @@ export class DevicesComponent {
     iotService.onConnected(()=>{
       iotService.getDevices();
     });
+  }
+  
+  deviceSelected(device){
+    console.log("device seleceted", device);
+    if (this.onDeviceSelected !== undefined)
+      this.onDeviceSelected(device);
   }
 
 }

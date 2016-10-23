@@ -1,4 +1,7 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Device } from './models';
+import { DeviceComponent } from './device.component';
+import { DevicesComponent } from './devices.component';
 
 @Component({
   selector: 'app',
@@ -11,18 +14,31 @@ import { Component, ViewEncapsulation } from '@angular/core';
     </button>
       <span>My Application Title</span>
     </md-toolbar>
-    <md-card>
-      <div devices></div>
-    </md-card>
-    <md-card>
-      <div device></div>
-    </md-card>
+    <div id="iot-devices">
+      <md-card>
+        <div #devices devices></div>
+      </md-card>
+    </div>
+    
+    <div id="iot-device">
+      <md-card>
+        <div #device device></div>
+      </md-card>
+    </div>
 
   `
   
 })
 export class AppComponent {
-  constructor(){
-
+  @ViewChild("device") device : DeviceComponent;
+  @ViewChild("devices") devices : DevicesComponent;
+  
+  ngOnInit(){
+    this.devices.onDeviceSelected = (device)=>{
+      this.device.setDevice(device);
+    };
   }
+  
+  
+
 } 

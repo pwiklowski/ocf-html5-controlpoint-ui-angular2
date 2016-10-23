@@ -11,8 +11,8 @@ import { VariableComponent } from './variable.component';
   selector: '[device]',
   template: `
   <div #container>
-    <md-card-title>{{device.name}}</md-card-title>    
-    <md-card-subtitle>{{device.uuid}}</md-card-subtitle>    
+    <md-card-title>{{device?.name}}</md-card-title>    
+    <md-card-subtitle>{{device?.id}}</md-card-subtitle>    
   </div>`,
 })
 export class DeviceComponent extends Component{   
@@ -24,34 +24,29 @@ export class DeviceComponent extends Component{
   container: ViewContainerRef;
   
   constructor(componentFactoryResolver: ComponentFactoryResolver, private iotService: IotService) {
-    this.device = new Device();
-    this.device.uuid = "0685B960-736F-46F7-BEC0-9E6CBD61ADC2";
-    this.device.name = "Device name";
     this.componentFactoryResolver = componentFactoryResolver;
   }
   
-  ngOnInit() {
-    this.iotService.subscribe("EventDeviceListUpdate", {}, (response)=>{
-      console.log("device list update");
-    });
-    
+  setDevice(device){
+    this.device = device;
     this.iotService.onConnected(()=>{
-      this.iotService.getDevice(this.device.uuid, (device)=>{
-        console.log("on connected from device component");
+      this.iotService.getDevice(this.device.id, (device)=>{
+        this.container.clear();
+        console.log("on connected from device component")
 
         device.resources.forEach(v => {
           let factory = this.componentFactoryResolver.resolveComponentFactory(
               this.variableComponentFactory(v.values["rt"]));
 
-
           let c = this.container.createComponent(factory);  
-          (<any>c.instance).init(this.device.uuid, v.name, v.values);
+          (<any>c.instance).init(this.device.id, v.name, v.values);
 
           this.resourceComponents[v.name] = c;
         });
       });
     });
   }
+  
 
   variableComponentFactory(rt) : any{
     if (rt == "oic.r.light.dimming"){
@@ -63,42 +58,11 @@ export class DeviceComponent extends Component{
     }
   }
 
-
-  attach(component, callback, detachCallback) : any{ 
-    let factory = this.componentFactoryResolver.resolveComponentFactory(component);
-    let c = this.container.createComponent(factory);  
-
-    let w = c.location.nativeElement;
-
-
-    this.window = w;
-    this.redraw();
-    callback(c);
-
-    this.show(w);
-
-    (<any>c.instance).onClose = () => {
-        this.hide(this.window);
-        detachCallback();
-    };
-
-  }
   hide(window){
-    if(window != undefined){
-      window.style.transform = this.transformOpen;
-      window.style.opacity = "0";
-      setTimeout(()=>{
-            this.container.clear();
-            this.window = undefined;
-      
-      }, this.translateTime);
-    }
+    window.style.transform = this.transformOpen;
   }
   show(window){
-    if(window != undefined){
-      window.style.transform = this.transformClosed;
-      window.style.opacity = "100";
-    }
+    window.style.transform = this.transformClosed;
   }
     
 }
