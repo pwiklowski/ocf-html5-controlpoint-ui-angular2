@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Device } from './models';
 import { DeviceComponent } from './device.component';
 import { DevicesComponent } from './devices.component';
+import { IotService } from './iot.service';
 
 @Component({
   selector: 'app',
@@ -25,6 +26,9 @@ import { DevicesComponent } from './devices.component';
         <div #device device></div>
       </md-card>
     </div>
+    <button md-fab class="iot-search-button" style="position: absolute; color: white" (click)="searchDevices()">
+      <md-icon class="md-24">refresh</md-icon>
+    </button>
 
   `
   
@@ -32,6 +36,10 @@ import { DevicesComponent } from './devices.component';
 export class AppComponent {
   @ViewChild("device") device : DeviceComponent;
   @ViewChild("devices") devices : DevicesComponent;
+  
+  constructor(private iot: IotService){
+    
+  }
   
   ngOnInit(){
     this.devices.onDeviceSelected = (device)=>{
@@ -44,6 +52,10 @@ export class AppComponent {
   showDeviceList(){
     this.device.hide();
     this.devices.show();
+  }
+  
+  searchDevices(){
+   this.iot.searchDevices();
   }
   
   

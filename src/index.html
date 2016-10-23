@@ -12,6 +12,7 @@
   <meta name="description" content="<%= htmlWebpackPlugin.options.title %>">
   
   
+  <link rel="stylesheet" href="assets/css/indigo-pink.css">
   <style>
     md-card {
       margin: 20px;
@@ -46,6 +47,14 @@
       top: 70px;
       transition: all 300ms ease-out;
     }
+    .iot-search-button{
+      color: white;
+      position: absolute;
+      right: 30px;
+      bottom: 30px;
+      color: white;
+      
+    }
     
     .app-icon-button {
       box-shadow: none;
@@ -66,7 +75,6 @@
     }
   </style>
   
-  <link rel="stylesheet" href="assets/css/indigo-pink.css">
 
   <% if (webpackConfig.htmlElements.headTags) { %>
   <!-- Configured Head Tags  -->

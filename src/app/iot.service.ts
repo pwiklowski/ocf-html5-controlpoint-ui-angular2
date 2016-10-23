@@ -16,6 +16,7 @@ class Subscription {
 export class IotService {
 
   static RequestGetDevices = "RequestGetDevices";
+  static RequestSearchDevices = "RequestSearchDevices";
   static RequestGetDevice = "RequestGetDevice";
   static ResponseGetDevice = "ResponseGetDevice";
   static RequestSetValue = "RequestSetValue";
@@ -102,6 +103,10 @@ export class IotService {
 
   getDevices() {
     this.send({"request": IotService.RequestGetDevices});
+  }
+  
+  searchDevices(){
+    this.send({"request": IotService.RequestSearchDevices});
   }
 
   getDevice(uuid, callback) {
