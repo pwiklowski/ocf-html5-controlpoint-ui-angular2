@@ -31,11 +31,15 @@ export class DevicesComponent {
     let device = document.getElementById("iot-devices");
     device.style.transform = "translateY(500px)";
     device.style.opacity = "0";
+    setTimeout(()=>{
+      device.style.visibility = "hidden";
+    }, 500);
   }
   show(){
     let device = document.getElementById("iot-devices");
     device.style.transform = "translateY(0px)";
     device.style.opacity = "1";
+    device.style.visibility = "visible";
   }
 
 }

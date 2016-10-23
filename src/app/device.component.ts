@@ -63,10 +63,14 @@ export class DeviceComponent extends Component{
     let device = document.getElementById("iot-device");
     device.style.transform = "translateY(500px)";
     device.style.opacity = "0";
+    setTimeout(()=>{
+      device.style.visibility = "hidden";
+    }, 500);
   }
   show(){
     let device = document.getElementById("iot-device");
     device.style.transform = "translateY(0px)";
     device.style.opacity = "1";
+    device.style.visibility = "visible";
   }
 }
