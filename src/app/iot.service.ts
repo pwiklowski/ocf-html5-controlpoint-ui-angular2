@@ -39,7 +39,7 @@ export class IotService {
   }
 
   connect() {
-    this.socket = new WebSocket("ws://"+ window.location.hostname+"/ws/");
+    this.socket = new WebSocket("ws://"+ window.location.host+"/ws/");
     this.socket.onmessage = (e) => {
       this.onMessage(e);
     };
