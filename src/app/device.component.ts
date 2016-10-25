@@ -15,7 +15,7 @@ import { VariableComponent } from './variable.component';
     <md-card-subtitle>{{device?.id}}</md-card-subtitle>    
   </div>`,
 })
-export class DeviceComponent extends Component{   
+export class DeviceComponent{   
   device: Device;
   componentFactoryResolver: ComponentFactoryResolver;
   resourceComponents: Map<string, VariableComponent> = new Map<string, VariableComponent>();
