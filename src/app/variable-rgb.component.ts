@@ -11,16 +11,31 @@ import {IotService} from './iot.service';
     <div class="iot-resource">
         <b>{{ name}}</b><br>
         Red:<br>
-        <md-slider #r value="{{red}}" type="range" min="0" max="255"> </md-slider><br>
+        <md-slider #r 
+          type="range"
+          min="0"
+          max="255"
+          [(ngModel)]="red" 
+          (slide)="onSlide(r, $event)"
+          (click)="onClick(r, $event)"> 
+        </md-slider><br>
         Green:<br>
-        <md-slider #g value="{{green}}" type="range" min="0" max="255"></md-slider><br>
+        <md-slider #g type="range" min="0" max="255"
+          [(ngModel)]="green" 
+          (slide)="onSlide(g, $event)"
+          (click)="onClick(g, $event)"> 
+        </md-slider><br>
         Blue:<br>
-        <md-slider #b value="{{blue}}" type="range" min="0" max="255"></md-slider><br>
+        <md-slider #b type="range" min="0" max="255"
+          [(ngModel)]="blue" 
+          (slide)="onSlide(b, $event)"
+          (click)="onClick(b, $event)"> 
+        </md-slider><br>
     </div>`})
 export class VariableColourRgbComponent extends VariableComponent {
-  red : number;
-  green : number;
-  blue : number;
+  red : number = 0;
+  green : number = 0;
+  blue : number = 0;
   
   @ViewChild('r') r;
   @ViewChild('g') g;
@@ -31,27 +46,20 @@ export class VariableColourRgbComponent extends VariableComponent {
   constructor(private iot : IotService) {
     super();
   }
-
-  init(di, name, value) {
-    this.di = di;
-    this.name = name;
-    this.setValues(value);
-
+  ngAfterViewInit(){
     this.iot.onConnected(() => {
       this.sub = this.iot.subscribe("EventValueUpdate", { di: this.di, resource: this.name }, (data) => {
         this.setValues(data.value);
       });
     });
-    this.r.registerOnTouched((value)=>{
-      this.onChange(value, this.g.value, this.b.value);
-    });
-    this.g.registerOnTouched((value)=>{
-      this.onChange(this.r.value, value, this.b.value);
-    });
-    this.b.registerOnTouched((value)=>{
-      this.onChange(this.r.value, this.g.value, value);
-    });
-    
+  }
+
+  init(di, name, value) {
+    this.di = di;
+    this.name = name;
+    setTimeout(()=>{
+      this.setValues(value);
+    }, 100); 
   }
 
   setValues(value) {
@@ -59,22 +67,37 @@ export class VariableColourRgbComponent extends VariableComponent {
     this.red = parseInt(values[0]);
     this.green = parseInt(values[1]);
     this.blue = parseInt(values[2]);
-    
-    this.r.writeValue(this.red);
-    this.g.writeValue(this.green);
-    this.b.writeValue(this.blue);
-
+  }
+  
+  onSlide(slider, event){
+    let v = this.calculateValue(slider, event.center.x);
+    if(slider === this.r) this.updateValue(v, this.green, this.blue);
+    if(slider === this.g) this.updateValue(this.red, v, this.blue);
+    if(slider === this.b) this.updateValue(this.red, this.green, v);
+  }
+ 
+  //very ugly hack to trigger iot.setValue only when user changed value, using ngModelChange will lead to endless loop of updates 
+  // onClick is called before value is updated and makes it useless
+  calculateValue(slider, pos){
+    var offset = slider._sliderDimensions.left;
+    var size = slider._sliderDimensions.width;
+    var percent = slider.clamp((pos - offset) / size);
+    var exactValue =  slider.calculateValue(percent);
+    return Math.round((exactValue - slider.min)  + slider.min);
+  }
+  
+  onClick(slider, event){
+    let v = this.calculateValue(slider, event.clientX);
+    if(slider === this.r) this.updateValue(v, this.green, this.blue);
+    if(slider === this.g) this.updateValue(this.red, v, this.blue);
+    if(slider === this.b) this.updateValue(this.red, this.green, v);
   }
 
-  onChange(red, green, blue) {
-    this.red = red;
-    this.green = green;
-    this.blue = blue;
 
+  updateValue(red, green, blue){
     let obj = {
-      "dimmingSetting": this.red + "," + this.green + "," + this.blue
+      "dimmingSetting": red + "," + green + "," + blue
     };
-
     this.iot.setValue(this.di, this.name, obj);
   }
 }

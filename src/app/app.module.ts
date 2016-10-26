@@ -1,6 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
+import { FormsModule }   from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '@angular/material';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
@@ -40,17 +41,18 @@ export class MapToIterable {
     VariableColourRgbComponent,
     MapToIterable
   ],
-  imports: [ 
+  imports: [ // import Angular's modules
     BrowserModule,
     HttpModule,
-    MaterialModule.forRoot()
+    MaterialModule.forRoot(),
+    FormsModule
   ],
   entryComponents: [
       VariableGenericComponent,
       VariableLightDimmingComponent,
       VariableColourRgbComponent
   ],
-  providers: [
+  providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     IotService
   ]
