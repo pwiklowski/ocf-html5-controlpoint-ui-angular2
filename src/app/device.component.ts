@@ -6,6 +6,7 @@ import { VariableColourRgbComponent } from './variable-rgb.component';
 import { VariableLightDimmingComponent } from './variable-dimming.component';
 import { VariableGenericComponent } from './variable-generic.component';
 import { VariableComponent } from './variable.component';
+import { VariableBinnaryComponent } from './variable-binnary.component';
 
 @Component({
   selector: '[device]',
@@ -52,6 +53,8 @@ export class DeviceComponent{
   variableComponentFactory(rt) : any{
     if (rt == "oic.r.light.dimming"){
       return VariableLightDimmingComponent;
+    }else if(rt === "oic.r.switch.binary"){
+      return VariableBinnaryComponent;
     }else if(rt === "oic.r.colour.rgb"){
       return VariableColourRgbComponent;
     }else{

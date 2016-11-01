@@ -16,6 +16,7 @@ import { DeviceComponent } from './device.component'
 import { VariableColourRgbComponent } from './variable-rgb.component';
 import { VariableLightDimmingComponent } from './variable-dimming.component';
 import { VariableGenericComponent } from './variable-generic.component';
+import { VariableBinnaryComponent } from './variable-binnary.component';
 
 import { Pipe } from '@angular/core';
 
@@ -39,6 +40,7 @@ export class MapToIterable {
     VariableGenericComponent,
     VariableLightDimmingComponent,
     VariableColourRgbComponent,
+    VariableBinnaryComponent,
     MapToIterable
   ],
   imports: [ // import Angular's modules
@@ -50,6 +52,7 @@ export class MapToIterable {
   entryComponents: [
       VariableGenericComponent,
       VariableLightDimmingComponent,
+      VariableBinnaryComponent,
       VariableColourRgbComponent
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
