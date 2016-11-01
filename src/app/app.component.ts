@@ -13,7 +13,7 @@ import { IotService } from './iot.service';
     <button class="app-icon-button" (click)="showDeviceList()" >
       <i class="material-icons app-toolbar-menu">menu</i>
     </button>
-      <span>My Application Title</span>
+      <span>OCF HTML5 controler</span>
     </md-toolbar>
     <div id="iot-devices">
       <md-card>
